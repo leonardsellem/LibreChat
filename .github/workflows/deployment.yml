@@ -1,0 +1,27 @@
+name: Deploy to Server
+
+on:
+  push:
+    branches:
+      - main  # Set this to the branch you want to deploy
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up SSH connection
+      uses: webfactory/ssh-agent@v0.5.3
+      with:
+        ssh-private-key: ${{ secrets.SSH_KEY }}
+
+    - name: Deploy to Server
+      run: |
+        ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
+          cd /home/ubuntu/LibreChat/.github/workflows/deployment.yml
+          git pull origin main
+          docker-compose down
+          docker-compose up -d --build
+        EOF
