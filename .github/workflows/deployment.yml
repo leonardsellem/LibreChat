@@ -20,7 +20,7 @@ jobs:
     - name: Deploy to Server
       run: |
         ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
-          cd /home/ubuntu/LibreChat/.github/workflows/deployment.yml
+          cd /home/ubuntu/LibreChat/
           git pull origin main
           docker compose down
           docker compose up -d --build
