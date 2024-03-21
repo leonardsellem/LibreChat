@@ -4,9 +4,9 @@ services:
   vectordb:
     image: ankane/pgvector:latest
     environment:
-      POSTGRES_DB: mydatabase
-      POSTGRES_USER: myuser
-      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - pgdata2:/var/lib/postgresql/data
     ports:
@@ -17,9 +17,9 @@ services:
     environment:
       - DB_HOST=vectordb
       - DB_PORT=5432
-      - POSTGRES_DB=mydatabase
-      - POSTGRES_USER=myuser
-      - POSTGRES_PASSWORD=mypassword
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     ports:
       - "8000:8000"
     volumes:
@@ -31,3 +31,8 @@ services:
 
 volumes:
   pgdata2:
+
+networks:
+  default:
+    name: nginx-proxy
+    external: true
