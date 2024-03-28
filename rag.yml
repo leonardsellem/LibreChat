@@ -19,16 +19,13 @@ services:
   rag_api:
     image: ghcr.io/danny-avila/librechat-rag-api-dev:latest
     environment:
-      DB_HOST: vectordb
-      DB_PORT: 5432
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-#     ports:
-#       - "8000:8000"
-    volumes:
-      - ./uploads/temp:/app/uploads/temp
-      - ./.env:/app/.env
+      - DB_HOST=vectordb
+      - DB_PORT=5432
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    ports:
+      - "8000:8000"
     depends_on:
       - vectordb
     env_file:
