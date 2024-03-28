@@ -9,21 +9,26 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - pgdata2:/var/lib/postgresql/data
+      - ./.env:/app/.env
+
+    env_file:
+      - .env
     ports:
       - "5433:5432"
 
   rag_api:
     image: ghcr.io/danny-avila/librechat-rag-api-dev:latest
     environment:
-      - DB_HOST=vectordb
-      - DB_PORT=5432
-      - POSTGRES_DB=${POSTGRES_DB}
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-    ports:
-      - "8000:8000"
+      DB_HOST: vectordb
+      DB_PORT: 5432
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+#     ports:
+#       - "8000:8000"
     volumes:
       - ./uploads/temp:/app/uploads/temp
+      - ./.env:/app/.env
     depends_on:
       - vectordb
     env_file:
@@ -34,5 +39,5 @@ volumes:
 
 networks:
   default:
-    name: librechat_default
+    name: nginx-proxy-manager
     external: true
