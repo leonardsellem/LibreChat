@@ -10,7 +10,6 @@ services:
     volumes:
       - pgdata2:/var/lib/postgresql/data
       - ./.env:/app/.env
-
     env_file:
       - .env
     ports:
